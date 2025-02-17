@@ -22,7 +22,7 @@ public class LoginController {
 
     @MappingAnnotation(url = "/loginForm")
     public ModelView showLoginForm() {
-        ModelView mv = new ModelView("Login.jsp");
+        ModelView mv = new ModelView("login.jsp");
         return mv;
     }
 
@@ -36,7 +36,7 @@ public class LoginController {
             ModelView modelview = new ModelView("user_page.jsp");
             return modelview;
         } else {
-            ModelView modelview = new ModelView("Login.jsp");
+            ModelView modelview = new ModelView("login.jsp");
             modelview.addObject("error", "No user found");
             return modelview;
         }
@@ -45,7 +45,7 @@ public class LoginController {
     @MappingAnnotation(url = "/logout")
     public ModelView logout() {
         session.delete("user");
-        ModelView mv = new ModelView("Login.jsp");
+        ModelView mv = new ModelView("login.jsp");
         return mv;
     }
 
@@ -67,7 +67,7 @@ public class LoginController {
             ModelView modelview = new ModelView("user_page.jsp");
             return modelview;
         } else {
-            ModelView modelview = new ModelView("Login.jsp");
+            ModelView modelview = new ModelView("login.jsp");
             modelview.addObject("error", "No user found");
             return modelview;
         }
