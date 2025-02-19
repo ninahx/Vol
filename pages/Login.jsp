@@ -9,7 +9,7 @@
 <body>
     <h1>Login page</h1>
     <div class="container">
-        <form action="<%= request.getContextPath() %>/submitLogin1">
+        <form action="<%= request.getContextPath() %>/submitLogDB">
             <label for="">Enter your name</label>
             <input type="text" name="nom">
             <label for="">Enter your password</label>
