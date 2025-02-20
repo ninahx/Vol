@@ -11,13 +11,15 @@
     <h1>Page Utilisateur</h1>
     <div class="container">
         <%
-            Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+            // Retrieve the "user" object from the session
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+
             if (utilisateur != null) {
         %>
-        <p>Your name: <%= utilisateur.getNomUtilisateur() %></p>
-        <p>Your address: <%= utilisateur.getAdresse() %></p>
-        <p>Your actual age: <%= utilisateur.getAge() %></p>
-        <p>Your IT option: <%= utilisateur.getChoix() %></p>
+        <!-- Display user details -->
+        <p>Your ID: <%= utilisateur.getId_utilisateur() %></p>
+        <p>Your email: <%= utilisateur.getEmail() %></p>
+        <p>Your role: <%= utilisateur.getRole() != null ? utilisateur.getRole().getNom() : "No role assigned" %></p>
         <% } else { %>
         <p>You are logged out</p>
         <% } %>
