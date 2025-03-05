@@ -71,6 +71,7 @@ CREATE TABLE vol (
     UNIQUE (id_avion, date_depart)
 );
 
+--class PrixVol
 -- Table prix_vol
 CREATE TABLE prix_vol (
     id_prix SERIAL PRIMARY KEY,
@@ -91,6 +92,11 @@ CREATE TABLE reservation (
     id_statut_reservation INTEGER NOT NULL REFERENCES statut_vol(id_statut_vol) ON DELETE CASCADE,
     UNIQUE (id_vol, id_avion_siege) -- Empêche la double réservation du même siège sur un vol
 );
+
+ALTER TABLE reservation 
+ADD COLUMN fichier_passeport BYTEA NOT NULL, 
+ADD COLUMN numero_passeport VARCHAR(50) NOT NULL UNIQUE;
+
 
 -- Table historique des états de réservation
 CREATE TABLE historique_etat_reservation (
