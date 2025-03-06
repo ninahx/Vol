@@ -1,5 +1,12 @@
 @echo off
 setlocal
+
+@REM Configuration explicite de JAVA_HOME pour utiliser Java 20
+set "JAVA_HOME=C:\Program Files\Java\jdk-20"
+set "PATH=%JAVA_HOME%\bin;%PATH%"
+echo JAVA_HOME défini sur %JAVA_HOME%
+
+
 @REM  temp folder
 set "temp=C:\Users\Userr\Documents\temp_MVC"
 

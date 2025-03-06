@@ -5,19 +5,55 @@
                              http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+  <!-- Configuration du DispatcherServlet -->
   <servlet>
-    <servlet-name>frontController</servlet-name>
-    <servlet-class>com.controller.FrontController</servlet-class>
-    <load-on-startup>1</load-on-startup>
+    <servlet-name>framework</servlet-name>
+    <servlet-class>main.controller.FrontController</servlet-class>
+    <multipart-config>
+        <max-file-size>10485760</max-file-size> <!-- 10MB -->
+        <max-request-size>52428800</max-request-size> <!-- 50MB -->
+        <file-size-threshold>2097152</file-size-threshold> <!-- 2MB -->
+    </multipart-config>
     <init-param>
-      <param-name>controller</param-name>
-      <param-value>com.controller</param-value>
+        <param-name>scanPackage</param-name>
+        <param-value>com.controller</param-value>
+    </init-param>
+    <init-param>
+        <param-name>authSessionKey</param-name>
+        <param-value>user</param-value>
+    </init-param>
+    <init-param>
+        <param-name>roleSessionKey</param-name>
+        <param-value>userRole</param-value>
+    </init-param>
+    <init-param>
+        <param-name>loginRedirectUrl</param-name>
+        <param-value>/Vol/login</param-value>
     </init-param>
   </servlet>
 
+  <!-- Mapping des URLs pour le DispatcherServlet -->
   <servlet-mapping>
-    <servlet-name>frontController</servlet-name>
+    <servlet-name>framework</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/assets/*</url-pattern>
+    </servlet-mapping>
+  <!-- Page d'erreur 404 Not Found -->
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/views/error-404.jsp</location>
+  </error-page>
+
+  <!-- Déclaration des Taglibs -->
+  <jsp-config>
+    <taglib>
+        <taglib-uri>/Vol</taglib-uri>
+        <taglib-location>/WEB-INF/tags/app.tld</taglib-location>
+    </taglib>
+  </jsp-config>
 
 </web-app>

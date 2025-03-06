@@ -1,85 +1,174 @@
 package com.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import dao.Column;
+import dao.GenericDAO;
+import dao.Table;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import com.connection.Connexion;
 
+@Table(name = "Reservation")
 public class Reservation {
-    private Long id;
-    private String codeReservation;
-    private Vol vol;
-    private AvionSiege avionSiege;
-    private LocalDateTime dateReservation;
-    private BigDecimal prixTotal;
-    private StatutVol statutReservation;
-    private byte[] fichierPasseport;
-    private String numeroPasseport;
+    @Column(name = "id")
+    private String id;
 
-    
-    public Reservation(Long id, String codeReservation, Vol vol, AvionSiege avionSiege, LocalDateTime dateReservation,
-            BigDecimal prixTotal, StatutVol statutReservation, byte[] fichierPasseport, String numeroPasseport) {
+    @Column(name = "vol_id")
+    private String volId;
+
+    @Column(name = "client_nom")
+    private String clientNom;
+
+    @Column(name = "client_prenom")
+    private String clientPrenom;
+
+    @Column(name = "client_email")
+    private String clientEmail;
+
+    @Column(name = "type_siege_id")
+    private String typeSiegeId;
+
+    @Column(name = "nombre_siege")
+    private int nombreSiege;
+
+    @Column(name = "date_reservation")
+    private Date dateReservation;
+
+    @Column(name = "fichier")
+    private byte[] fichier; // Nouvel attribut pour stocker le fichier
+
+    // Constructeurs
+    public Reservation() {}
+
+    public Reservation(String id, String volId, String clientNom, String clientPrenom, String clientEmail, String typeSiegeId, int nombreSiege, Date dateReservation, byte[] fichier) {
         this.id = id;
-        this.codeReservation = codeReservation;
-        this.vol = vol;
-        this.avionSiege = avionSiege;
+        this.volId = volId;
+        this.clientNom = clientNom;
+        this.clientPrenom = clientPrenom;
+        this.clientEmail = clientEmail;
+        this.typeSiegeId = typeSiegeId;
+        this.nombreSiege = nombreSiege;
         this.dateReservation = dateReservation;
-        this.prixTotal = prixTotal;
-        this.statutReservation = statutReservation;
-        this.fichierPasseport = fichierPasseport;
-        this.numeroPasseport = numeroPasseport;
+        this.fichier = fichier;
     }
+
+    public Reservation(String volId, String clientNom, String clientPrenom, String clientEmail, String typeSiegeId, int nombreSiege, Date dateReservation) {
+        this.volId = volId;
+        this.clientNom = clientNom;
+        this.clientPrenom = clientPrenom;
+        this.clientEmail = clientEmail;
+        this.typeSiegeId = typeSiegeId;
+        this.nombreSiege = nombreSiege;
+        this.dateReservation = dateReservation;
+    }
+
     // Getters et Setters
-    public Long getId() {
-        return id;
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public String getVolId() { return volId; }
+    public void setVolId(String volId) { this.volId = volId; }
+
+    public String getClientNom() { return clientNom; }
+    public void setClientNom(String clientNom) { this.clientNom = clientNom; }
+
+    public String getClientPrenom() { return clientPrenom; }
+    public void setClientPrenom(String clientPrenom) { this.clientPrenom = clientPrenom; }
+
+    public String getClientEmail() { return clientEmail; }
+    public void setClientEmail(String clientEmail) { this.clientEmail = clientEmail; }
+
+    public String getTypeSiegeId() { return typeSiegeId; }
+    public void setTypeSiegeId(String typeSiegeId) { this.typeSiegeId = typeSiegeId; }
+
+    public int getNombreSiege() { return nombreSiege; }
+    public void setNombreSiege(int nombreSiege) { this.nombreSiege = nombreSiege; }
+
+    public Date getDateReservation() { return dateReservation; }
+    public void setDateReservation(Date dateReservation) { this.dateReservation = dateReservation; }
+
+    public byte[] getFichier() { return fichier; } // Getter pour le fichier
+    public void setFichier(byte[] fichier) { this.fichier = fichier; } // Setter pour le fichier
+
+    // Méthodes CRUD (inchangées)
+    public static List<Reservation> getAllReservations() {
+        List<Reservation> listReservations = new ArrayList<>();
+        try {
+            GenericDAO dao = Connexion.getGenericDAO();
+            List<Object> listObj = dao.findAll(new Reservation());
+            for (Object obj : listObj) {
+                if (obj instanceof Reservation) {
+                    listReservations.add((Reservation) obj);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listReservations;
     }
-    public void setId(Long id) {
-        this.id = id;
+
+    public static boolean insert(Reservation reservation) {
+        try {
+            GenericDAO dao = Connexion.getGenericDAO();
+            dao.saveWithSequence(reservation, "", "generate_reservation_id()");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-    public String getCodeReservation() {
-        return codeReservation;
+
+    public static boolean update(Reservation reservation) {
+        try {
+            GenericDAO dao = Connexion.getGenericDAO();
+            dao.update(reservation, "id");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-    public void setCodeReservation(String codeReservation) {
-        this.codeReservation = codeReservation;
+
+    public static boolean delete(Reservation reservation) {
+        try {
+            GenericDAO dao = Connexion.getGenericDAO();
+            dao.delete(reservation, "id");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-    public Vol getVol() {
-        return vol;
+
+    public static Reservation findById(String id) {
+        String criteria = "id = '" + id + "'";
+        Reservation reservation = null;
+        try {
+            GenericDAO dao = Connexion.getGenericDAO();
+            List<Object> listObj = dao.findAllWithCriteria(new Reservation(), criteria);
+            if (!listObj.isEmpty() && listObj.get(0) instanceof Reservation) {
+                reservation = (Reservation) listObj.get(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return reservation;
     }
-    public void setVol(Vol vol) {
-        this.vol = vol;
-    }
-    public AvionSiege getAvionSiege() {
-        return avionSiege;
-    }
-    public void setAvionSiege(AvionSiege avionSiege) {
-        this.avionSiege = avionSiege;
-    }
-    public LocalDateTime getDateReservation() {
-        return dateReservation;
-    }
-    public void setDateReservation(LocalDateTime dateReservation) {
-        this.dateReservation = dateReservation;
-    }
-    public BigDecimal getPrixTotal() {
-        return prixTotal;
-    }
-    public void setPrixTotal(BigDecimal prixTotal) {
-        this.prixTotal = prixTotal;
-    }
-    public StatutVol getStatutReservation() {
-        return statutReservation;
-    }
-    public void setStatutReservation(StatutVol statutReservation) {
-        this.statutReservation = statutReservation;
-    }
-    public byte[] getFichierPasseport() {
-        return fichierPasseport;
-    }
-    public void setFichierPasseport(byte[] fichierPasseport) {
-        this.fichierPasseport = fichierPasseport;
-    }
-    public String getNumeroPasseport() {
-        return numeroPasseport;
-    }
-    public void setNumeroPasseport(String numeroPasseport) {
-        this.numeroPasseport = numeroPasseport;
+
+    public static List<Reservation> findByTypeSiegeId(String idTypeSiege) {
+        String criteria = "type_siege_id = '" + idTypeSiege + "'";
+        List<Reservation> listReservations = new ArrayList<>();
+        try {
+            GenericDAO dao = Connexion.getGenericDAO();
+            List<Object> listObj = dao.findAllWithCriteria(new Reservation(), criteria);
+            for (Object obj : listObj) {
+                if (obj instanceof Reservation) {
+                    listReservations.add((Reservation) obj);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listReservations;
     }
 }
