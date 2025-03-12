@@ -9,6 +9,7 @@
     String error = (String) request.getAttribute("error");
     Map<String, String> errors = (Map<String, String>) request.getAttribute("errors");
 %>
+
 <div class="main-content">
     <div class="card">
         <% if (message != null) { %>

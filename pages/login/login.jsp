@@ -1,4 +1,6 @@
 <%@ include file="../header.jsp" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8" %>
 <div class="main-content">
     <!-- Formulaire d'ajout/modification -->
             <div class="card">
