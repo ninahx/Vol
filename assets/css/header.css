@@ -1,0 +1,190 @@
+/* Reset des styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Conteneur principal */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e1e2f, #3a3a55);
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+/* Wrapper pour le contenu principal */
+.content-wrapper {
+    margin-left: 250px;
+    transition: all 0.3s ease-in-out;
+    width: calc(100% - 250px);
+    min-height: 100vh;
+}
+
+/* Ajustement du wrapper quand la sidebar est réduite */
+.sidebar.collapsed + .content-wrapper {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+}
+
+/* Logo */
+.sidebar .logo {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Liste principale */
+.sidebar ul {
+    list-style: none;
+    width: 100%;
+}
+
+/* Style des liens */
+.sidebar ul li {
+    width: 100%;
+    position: relative;
+}
+
+.sidebar ul li > a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    transition: background 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+/* Icônes */
+.sidebar ul li a i {
+    font-size: 18px;
+    margin-right: 12px;
+}
+
+/* Effet Hover */
+.sidebar ul li > a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffcc00;
+    border-left: 5px solid #ffcc00;
+    padding-left: 25px;
+}
+
+/* Sous-menu (caché par défaut) */
+.sidebar ul li ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+    background: #2a2a3d;
+}
+
+.sidebar ul li ul li {
+    padding-left: 30px;
+}
+
+.sidebar ul li ul li a {
+    display: block;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #ddd;
+    transition: background 0.3s;
+}
+
+.sidebar ul li ul li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffcc00;
+}
+
+/* Afficher le sous-menu lorsqu'il est actif */
+.sidebar ul li.active > ul {
+    display: block;
+}
+
+/* Bouton Toggle */
+.sidebar .toggle-btn {
+    position: absolute;
+    top: 15px;
+    right: -35px;
+    background: #ffcc00;
+    color: black;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    transition: background 0.3s;
+    z-index: 1001;
+}
+
+.sidebar .toggle-btn:hover {
+    background: #ffa500;
+}
+
+/* Mode Réduit */
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar.collapsed .logo {
+    font-size: 18px;
+}
+
+.sidebar.collapsed ul li a {
+    justify-content: center;
+    padding: 12px 0;
+}
+
+.sidebar.collapsed ul li a i {
+    margin: 0;
+}
+
+.sidebar.collapsed ul li a span {
+    display: none;
+}
+
+/* Cache les sous-menus en mode réduit */
+.sidebar.collapsed ul li ul {
+    display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 80px;
+    }
+    
+    .content-wrapper {
+        margin-left: 80px;
+        width: calc(100% - 80px);
+    }
+    
+    .sidebar ul li a {
+        justify-content: center;
+        padding: 12px 0;
+    }
+    
+    .sidebar ul li a i {
+        margin: 0;
+    }
+    
+    .sidebar ul li a span {
+        display: none;
+    }
+    
+    .sidebar .toggle-btn {
+        display: none;
+    }
+}

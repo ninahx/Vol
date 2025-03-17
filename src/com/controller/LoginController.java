@@ -1,75 +1,51 @@
 package com.controller;
 
+import com.model.User;
 
-import com.annotation.AnnotationController;
-import com.annotation.MappingAnnotation;
-import com.annotation.ParamAnnotation;
+import main.controller.Controller;
+import main.controller.POST;
+import main.controller.Param;
+import main.controller.URLS;
+import main.modelView.ModelView;
+import main.session.MySession;
 
-import com.utilFrame.ModelView;
-import com.utilFrame.MySession;
-
-import com.need.User;
-import com.need.UserStore;
-
-@AnnotationController
+@Controller
 public class LoginController {
-
-    private MySession session;
-
-    public void setSession(MySession session) {
-        this.session = session;
+    
+    @URLS("/login")
+    public ModelView loginPage() {
+        ModelView modelView = new ModelView();
+        modelView.setUrl("/login/login.jsp");
+        return modelView;
     }
-
-    @MappingAnnotation(url = "/loginForm")
-    public ModelView showLoginForm() {
-        ModelView mv = new ModelView("login.jsp");
+    
+    @URLS("/do-login")
+    @POST
+    public ModelView processLogin(
+        @Param("username") String username,
+        @Param("password") String password,
+        MySession session) {
+        ModelView mv = new ModelView();
+        User user = User.authenticate(username, password);
+        
+        if (user == null) {
+            mv.add("error", "Invalid credentials");
+            mv.setUrl("/login/login.jsp");
+        } else if (user.getRole().equalsIgnoreCase("ADMIN")) {
+            session.add("user", user);        
+            session.add("userRole", "ADMIN"); 
+            mv.setUrl("/vols");
+        } 
+        
         return mv;
     }
-
-    @MappingAnnotation(url = "/submitLogin")
-    //@MappingAnnotation(url = "/submitData")
-    public ModelView submitConnection(@ParamAnnotation("nom") String name) {
-        User user = UserStore.getUserByName(name);
-
-        if (user != null) {
-            session.add("user", user);
-            ModelView modelview = new ModelView("user_page.jsp");
-            return modelview;
-        } else {
-            ModelView modelview = new ModelView("login.jsp");
-            modelview.addObject("error", "No user found");
-            return modelview;
-        }
-    }
-
-    @MappingAnnotation(url = "/logout")
-    public ModelView logout() {
+    
+    @URLS("/logout")
+    public ModelView logout(MySession session) {
+        ModelView mv = new ModelView();
         session.delete("user");
-        ModelView mv = new ModelView("login.jsp");
+        session.delete("userRole");
+        mv.setUrl("/index.jsp");
         return mv;
-    }
-
-    @MappingAnnotation(url = "/checkSession")
-    public ModelView check(@ParamAnnotation("nom") String name) {
-        User user = UserStore.getUserByName(name);
-
-        session.add("user", user);
-        ModelView modelview = new ModelView("check_session.jsp");
-        return modelview;
-    }
-
-    @MappingAnnotation(url = "/submitLogin1")
-    public ModelView submitLogin1(@ParamAnnotation("nom") String name) {
-        User user = UserStore.getUserByName(name);
-
-        if (user != null) {
-            session.add("user", user);
-            ModelView modelview = new ModelView("user_page.jsp");
-            return modelview;
-        } else {
-            ModelView modelview = new ModelView("login.jsp");
-            modelview.addObject("error", "No user found");
-            return modelview;
-        }
     }
 }
