@@ -14,16 +14,20 @@ public class Vol {
     @Column(name = "id")
     private String id;
 
+    @Attribute("villeDepartId")
     @Column(name = "ville_depart_id")
     private String villeDepartId;
 
+    @Attribute("villeArriveeId")
     @Column(name = "ville_arrivee_id")
     private String villeArriveeId;
-
+    
+    @Attribute("dateDepart")
     @NotNull(message = "La date depart ne peut pas être nul.")
     @Column(name = "date_depart")
     private Date dateDepart;
 
+    @Attribute("dateArrivee")
     @NotNull(message = "Le date arrivée ne peut pas être nul.")
     @Column(name = "date_arrivee")
     private Date dateArrivee;

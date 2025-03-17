@@ -36,7 +36,8 @@
                         for (VilleDeservie ville : listVille) { %>
                             <option value="<%= ville.getId() %>"><%= ville.getNomVille() %> (<%= ville.getCodeVille() %>)</option>
                     <%  }
-                    } %>
+                    } %> 
+                    
                 </select>
             </div>
 

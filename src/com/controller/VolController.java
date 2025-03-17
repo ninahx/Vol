@@ -38,22 +38,10 @@ public class VolController {
     @URLS("/vol/add")
     @POST
     @OnValidationError("/addVol")
-    public ModelView addVol(
-//            @Param("villeDepartId") String villeDepartId,
-//                            @Param("villeArriveeId") String villeArriveeId,
-//                            @Param("dateDepart") String dateDepartStr,
-//                            @Param("dateArrivee") String dateArriveeStr,
-                            @ParamObject Vol vol) {
+    public ModelView addVol(@ParamObject Vol vol) {
         ModelView mv = new ModelView();
 
-        // Conversion des chaînes de caractères en java.sql.Date
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//            Date dateDepart = new Date(sdf.parse(dateDepartStr).getTime());
-//            Date dateArrivee = new Date(sdf.parse(dateArriveeStr).getTime());
-
-            // Créer l'objet Vol avec les dates converties
-//            Vol vol = new Vol(villeDepartId, villeArriveeId, dateDepart, dateArrivee);
             boolean success = Vol.insert(vol);
 
             if(success){

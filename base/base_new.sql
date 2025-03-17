@@ -110,6 +110,7 @@ CREATE TABLE Reservation (
     FOREIGN KEY (type_siege_id) REFERENCES TypeSiege(id)
 );
 -- Table Vol
+
 CREATE TABLE vol (
 	id varchar(50) DEFAULT generate_vol_id() NOT NULL,
 	ville_depart_id varchar(50) NOT NULL,
