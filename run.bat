@@ -22,7 +22,7 @@ set "src=%cd%\src"
 set "assets=%cd%\assets"  
 
 @REM webapps folder
-set "webapps=C:\Program Files\Apache Software Foundation\Tomcat 10.1\webapps"
+set "webapps=C:\apache-tomcat-10.0.27\webapps"
 
 @REM Supprime le dossier temporaire 
 rmdir /s /q "%temp%"

@@ -21,6 +21,7 @@ Exécutez le script suivant pour démarrer l'application : ./run.bat
   - Délai d’annulation autorisé avant le vol.
 
 ## Front-Office
+- **Liste de vol ** 
 - **Recherche de vols**
 - **Réservation de vols**
 - **Annulation vol** par code 
